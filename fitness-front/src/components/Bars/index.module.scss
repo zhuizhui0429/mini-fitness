@@ -1,0 +1,58 @@
+.bar_container{
+    :global{
+        .progress_area{
+            height: 15px;
+            position: relative;
+            .bar_bg,.bar_real,Text{
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+            }
+            .bar_bg{
+                width: 100%;
+            }
+            .bar_bg,.bar_real{
+                border-radius: 20px;
+            }
+            .progress_tip{
+                width: 80px;
+                height: 35px;
+                text-align: center;
+                line-height: 35px;
+                box-sizing: content-box;
+                position:absolute;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                font-size: $smallFontSize;
+                color: $healthyGreen;
+                border-radius: 16px;
+            }
+        }
+        .bottom{
+            width: 100%;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+.weight_bar_container{
+    :global{
+        .bottom_item{
+            .stage{
+                margin-top: 6px;
+                font-size: $smallFontSize;
+                color: gray;
+            }
+            .value{
+                line-height: 50px;
+            }
+        }
+        & .bottom_item:nth-child(2) .value{
+            font-size: $boldFontSize;
+            font-weight: bold;
+        }
+    }
+}

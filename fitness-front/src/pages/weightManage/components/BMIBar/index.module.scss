@@ -1,0 +1,32 @@
+.bmi_container{
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    height: 20px;
+    padding-left: 8px;
+    justify-content: center;
+    :global{
+        .bar{
+            flex: 1 1 auto;
+            border-radius: 10px;
+        }
+        & .bar:nth-child(2){
+            transform: translateX(8px);
+        }
+        & .bar:nth-child(4){
+            transform: translateX(-8px);
+        }
+        & .bar:nth-child(5){
+            transform: translateX(-16px);
+        }
+        .tip{
+            position: absolute;
+            left:0px;
+            top: -20px;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+            border-top-color: $healthyGreen;
+        }
+    }
+}

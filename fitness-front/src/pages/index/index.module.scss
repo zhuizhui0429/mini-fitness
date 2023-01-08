@@ -1,0 +1,10 @@
+.index_container{
+    width: 100vw;
+    height: 100vh;
+    background-color: lightcoral;
+    :global{
+        .red_txt{
+            color: red;
+        }
+    }
+}

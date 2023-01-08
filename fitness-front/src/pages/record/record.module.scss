@@ -1,0 +1,47 @@
+.record_container{
+    padding: 20px;
+    padding-bottom: 50px;
+    background-color: #ddd;
+    margin-bottom: 100px;
+    :global{
+        .wrapper{
+            height: 200px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            .goal_area{
+                line-height: 50px;
+                display: flex;
+                justify-content: space-between;
+                .goal{
+                    font-weight: bold;
+                    margin-right:8px;
+                }
+                & Text:nth-child(2){
+                    font-size: 12Px;
+                    color: #ccc;
+                }
+                .right{
+                    display: flex;
+                    align-items: center;
+                    .arrow{
+                        margin: 0px 12px;
+                        font-size: 18Px;
+                    }
+                    & Text:nth-child(1){
+                        font-size: 12Px;
+                        color: #ccc;
+                    }
+                }
+
+            }
+            .weight_preview{
+                width: 100%;
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+    }
+}

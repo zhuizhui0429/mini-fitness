@@ -1,0 +1,29 @@
+.card_container{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+    :global{
+        .title_area{
+            display: flex;
+            align-items: center;
+            height: 40px;
+            .bar{
+                width: 8px;
+                height: 30px;
+                border-radius: 12px;
+                background-color: $healthyGreen;
+            }
+            .title{
+                margin-left: 12px;
+                font-size: $boldFontSize;
+            }
+            margin-bottom: 16px;
+        }
+        .content{
+            box-sizing: border-box;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #fff;
+        }
+    }
+}

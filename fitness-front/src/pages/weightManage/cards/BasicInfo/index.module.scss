@@ -1,0 +1,84 @@
+.basic_info{
+    :global{
+        .top{
+            height: 100px;
+            display: flex;
+            align-items: center;
+            image{
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                margin-right: 8px;
+                border-radius: 50%;
+            }
+            margin-bottom: 15px;
+        }
+        .detail{
+            display: flex;
+            justify-content: space-between;
+            .item{
+                width: 180px;
+                height: 130px;
+                box-sizing: border-box;
+                padding: 10px 0px;
+                border-radius: 14px;
+                background-color: #ddd;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+                .key{
+                    font-size: $smallFontSize;
+                }
+                .value{
+                    font-size: $boldFontSize;
+                    color: #68728b;
+                }
+            }
+        }
+        .bmi_area,.metabolism_area{
+            display: flex;
+            height: 50px;
+            align-items: center;
+            justify-content: space-between;
+            margin: 26px 0px;
+            .left{
+                height: 100%;
+                display: flex;
+                align-items: center;
+                Text{
+                    margin-right: 6px;
+                }
+                View{
+                    color: gray;
+                }
+            }
+            .right{
+                height: 100%;
+                display: flex;
+                align-items: center;
+                .bmi,.metabolism_area{
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                }
+                .category{
+                    width: 90px;
+                    height: 40px;
+                    text-align: center;
+                    line-height: 40px;
+                    font-size: $smallFontSize;
+                    color: $healthyGreen;
+                    background-color: $lightGreen;
+                    margin-left: 10px;
+                    border-radius: 20px;
+                }
+            }
+        }
+        .metabolism_area{
+            .right{
+                & Text:nth-child(2){
+                    margin-left: 6px;
+                }
+            }
+        }
+    }
+}

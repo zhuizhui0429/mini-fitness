@@ -1,0 +1,44 @@
+.weight_goal_container{
+    :global{
+        .weight_area{
+            margin-top: 24px;
+            margin-bottom: 24px;
+        }
+        .small_cards{
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            .expect,.time{
+                width: 45%;
+                height: 120px;
+                box-sizing: border-box;
+                padding: 14px 0px;
+                border-radius: 15px;
+                background-color: #e4f5fd;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+                & Text:nth-child(1){
+                    color: gray;
+                    font-size: $smallFontSize;
+                    margin-bottom: 8px;
+                }
+            }
+            .expect{
+                & Text:nth-child(2){
+                    color:#2cc8ff
+                }
+            }
+            .time{
+                View {
+                    color:$healthyGreen;
+                    & Text:nth-child(1){
+                        color:#2cc8ff
+                    }
+                }
+
+            }
+        }
+    }
+}

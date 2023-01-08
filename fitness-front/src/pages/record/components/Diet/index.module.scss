@@ -1,0 +1,97 @@
+.diet_container{
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 16px ;
+    background-color: #fff;
+    margin-top: 40px;
+    :global{
+        .title{
+            font-size: 26px;
+            line-height: 40px;
+            font-weight: bold;
+        }
+        .heat_area{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 100px ;
+            .cal{
+                font-size: $smallFontSize;
+                color: gray;
+                Text{
+                    font-size: 32px;
+                    margin: 0px 4px;
+                    font-weight: bold;
+                    color: #000;
+                }
+            }
+            .stage_heat{
+                width: 240px;
+                padding-right: 20px;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .options{
+            margin-top: 15px;
+            padding-top: 16px;
+            border-top: 6px dashed #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+
+.vertical_pro_bar_container{
+    display: flex;
+    flex-direction: column;
+    width: 30px;
+    align-items: center;
+    :global{
+        .bar_wrapper{
+            height: 60px;
+            width: 6px;
+            position: relative;
+            background-color: #ddd;
+            border-radius: 8px;
+            .active{
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                background-color: $healthyGreen;
+                border-radius: 8px;
+            }
+        }
+        Text{
+            margin-top: 6px;
+            font-size: $smallFontSize;
+            color: gray;
+        }
+    }
+}
+
+.record_option_container{
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    background-color: #e3fdf2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #383b4e;
+    :global{
+        .bottom{
+            margin-top: 5px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            Text{
+                margin-left: 8px;
+                font-size: $smallFontSize;
+            }
+        }
+    }
+}

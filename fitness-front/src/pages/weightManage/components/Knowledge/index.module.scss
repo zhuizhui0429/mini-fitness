@@ -1,0 +1,11 @@
+.knowledge_container{
+    :global{
+        Text{
+            font-size: $smallFontSize;
+            color: gray;
+        }
+        .at-icon{
+            color: $healthyGreen;
+        }
+    }
+}

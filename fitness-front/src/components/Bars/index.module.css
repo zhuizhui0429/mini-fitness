@@ -1,0 +1,44 @@
+.WeightBar_container :global .progress_area {
+  height: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.WeightBar_container :global .progress_area .bar_bg, .WeightBar_container :global .progress_area .bar_real, .WeightBar_container :global .progress_area Text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+
+.WeightBar_container :global .progress_area .bar_bg {
+  width: 100%;
+}
+
+.WeightBar_container :global .progress_area Text {
+  padding: 6px 8px;
+  line-height: 12Px;
+  font-size: 12Px;
+  background-color: #ffffdd;
+  color: greenyellow;
+}
+
+.WeightBar_container :global .dots {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.WeightBar_container :global .dots .dot_item Text {
+  margin-top: 6px;
+  color: #ccc;
+}
+
+.WeightBar_container :global .dots .dot_item Text, .WeightBar_container :global .dots .dot_item View {
+  font-size: 16Px;
+}
+
+.WeightBar_container :global .dots .dot_item View:nth-child(2) {
+  font-size: 20Px;
+  font-weight: bold;
+}

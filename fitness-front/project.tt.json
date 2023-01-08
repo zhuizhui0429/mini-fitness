@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "fitness-front",
+  "description": "健身记录小程序前端",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}

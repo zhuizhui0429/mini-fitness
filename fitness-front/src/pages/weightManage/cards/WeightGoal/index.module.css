@@ -1,0 +1,20 @@
+.weight_goal_container :global .weight_area {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.weight_goal_container :global .small_cards {
+  display: flex;
+  justify-content: space-between;
+}
+
+.weight_goal_container :global .small_cards .expect, .weight_goal_container :global .small_cards .time {
+  width: 45%;
+  height: 80px;
+  border-radius: 15px;
+  background-color: #e4f5fd;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
