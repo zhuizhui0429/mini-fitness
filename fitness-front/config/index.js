@@ -1,84 +1,81 @@
-const path = require('path')
+const path = require("path");
 
 const config = {
-  projectName: 'fitness-front',
-  date: '2023-1-1',
+  projectName: "fitness-front",
+  date: "2023-1-1",
   designWidth: 750,
   deviceRatio: {
     640: 2.34 / 2,
     750: 1,
-    828: 1.81 / 2
+    828: 1.81 / 2,
   },
-  sourceRoot: 'src',
-  outputRoot: 'dist',
+  sourceRoot: "src",
+  outputRoot: "dist",
   plugins: [],
-  defineConstants: {
-  },
+  defineConstants: {},
   copy: {
-    patterns: [
-    ],
-    options: {
-    }
+    patterns: [],
+    options: {},
   },
-  framework: 'react',
-  compiler: 'webpack5',
+  framework: "react",
+  compiler: "webpack5",
   cache: {
-    enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+    enable: false, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
   },
   mini: {
     postcss: {
       pxtransform: {
         enable: true,
-        config: {
-
-        }
+        config: {},
       },
       url: {
         enable: true,
         config: {
-          limit: 1024*10 // 设定转换尺寸上限
-        }
+          limit: 1024 * 10, // 设定转换尺寸上限
+        },
       },
       cssModules: {
         enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
-        }
+          namingPattern: "module", // 转换模式，取值为 global/module
+          generateScopedName: "[name]__[local]___[hash:base64:5]",
+        },
       },
     },
-    alias:{
-      '@/myComp':path.resolve(__dirname,'..','src/components')
+    alias: {
+      "@/comp": path.resolve(__dirname, "..", "src/components"),
+      "@/api": path.resolve(__dirname, "..", "src/api"),
+      "@/pages": path.resolve(__dirname, "..", "src/pages"),
     },
-    sass:{
-      resource:[
-        path.resolve(__dirname,'..','src/styles/variable.scss')
-      ]
-    }
+    sass: {
+      resource: [
+        path.resolve(__dirname, "..", "src/styles/variable.scss"),
+        path.resolve(__dirname, "..", "src/styles/mixin.scss"),
+      ],
+    },
   },
   h5: {
-    publicPath: '/',
-    staticDirectory: 'static',
+    publicPath: "/",
+    staticDirectory: "static",
     postcss: {
       autoprefixer: {
         enable: true,
-        config: {
-        }
+        config: {},
       },
       cssModules: {
         enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
-        }
-      }
-    }
-  }
-}
+          namingPattern: "module", // 转换模式，取值为 global/module
+          generateScopedName: "[name]__[local]___[hash:base64:5]",
+        },
+      },
+    },
+  },
+};
 
 module.exports = function (merge) {
-  if (process.env.NODE_ENV === 'development') {
-    return merge({}, config, require('./dev'))
+  if (process.env.NODE_ENV === "development") {
+    return merge({}, config, require("./dev"));
   }
-  return merge({}, config, require('./prod'))
-}
+  return merge({}, config, require("./prod"));
+};

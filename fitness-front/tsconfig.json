@@ -22,7 +22,9 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@/myComp":["./src/components/*"]
+      "@/comp":["./src/components/index"],
+      "@/api":["./src/api"],
+      "@/pages/*":["./src/pages/*"]
     },
     "esModuleInterop": true
   },
