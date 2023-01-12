@@ -1,9 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { View, Text, Image } from "@tarojs/components";
 import { getOneDayHeat, getOneDayMealCardsData } from "@/api";
 import { getHeatChartOption, getNutritionChartOption } from "./option";
 import type { NutritionDataType } from "./option";
-import { Bar, Chart } from "@/comp";
+import { Bar, Chart, MealEditor } from "@/comp";
+import { singleMeal, mealKinds, nutritionKindsMap } from "./type";
 import { AtIcon, AtFloatLayout } from "taro-ui";
 import styles from "./dietDetail.module.scss";
 
@@ -13,18 +14,6 @@ definePageConfig({
     "ec-canvas": "../../ec-canvas/ec-canvas",
   },
 });
-export enum mealKinds {
-  breakfast = "早餐",
-  lunch = "午餐",
-  dinner = "晚餐",
-  extra = "加餐",
-  sport = "运动",
-}
-export const nutritionKindsMap = {
-  protein: "蛋白质",
-  carbs: "碳水化合物",
-  fat: "脂肪",
-} as const;
 const DietDetail = () => {
   const [option, setOption] = useState<ReturnType<typeof getHeatChartOption>>(
     () => getHeatChartOption()
@@ -32,6 +21,9 @@ const DietDetail = () => {
   const [cards, setCards] = useState<MealCardProps[]>([]);
   const [isOpenNutritionChart, setIsOpenNutritionChart] =
     useState<boolean>(false);
+  const [isOpenMealEditor, setIsOpenMealEditor] = useState<boolean>(false);
+  const toEditMeal = useRef<singleMeal | null>(null);
+  const toEditType = useRef<keyof typeof mealKinds>("breakfast");
   // 点击的卡片类型
   const [cardType, setCardType] = useState<MealCardProps["type"]>("breakfast");
   const renderHeatChart = async () => {
@@ -124,6 +116,11 @@ const DietDetail = () => {
             setCardType(type);
             setIsOpenNutritionChart(true);
           }}
+          mealClickHandler={(meal, type) => {
+            toEditMeal.current = meal;
+            toEditType.current = type;
+            setIsOpenMealEditor(true);
+          }}
         ></MealCard>
       ))}
       <AtFloatLayout
@@ -152,30 +149,61 @@ const DietDetail = () => {
           </View>
         </View>
       </AtFloatLayout>
+      {toEditMeal.current && (
+        <AtFloatLayout
+          isOpened={isOpenMealEditor}
+          onClose={() => setIsOpenMealEditor(false)}
+          scrollY={false}
+        >
+          <MealEditor
+            {...toEditMeal.current}
+            initialWeight={toEditMeal.current.weight}
+            onSave={(meal) => {
+              const newCards = cards.map((card) => {
+                if (card.type !== toEditType.current) {
+                  return card;
+                }
+                return {
+                  ...card,
+                  meals: card.meals.map((item) => {
+                    if (meal.name !== item.name) {
+                      return item;
+                    }
+                    return {
+                      ...item,
+                      weight: meal.weight,
+                    };
+                  }),
+                };
+              });
+              setCards(newCards);
+              setIsOpenMealEditor(false);
+            }}
+            onExit={() => setIsOpenMealEditor(false)}
+          ></MealEditor>
+        </AtFloatLayout>
+      )}
     </View>
   );
 };
 
 export default DietDetail;
 
-export type singleMeal = {
-  poster: string;
-  name: string;
-  weight: number;
-  heat: number;
-  /**
-   * 该菜品的碳蛋脂含量,实际含量为·rate*weight
-   */
-  rate: Record<keyof typeof nutritionKindsMap, number>;
-};
 export interface MealCardProps {
   type: keyof typeof mealKinds;
   meals: singleMeal[];
+  /**
+   * 点击卡片标题回调,参数为卡片的type
+   */
   titleClickHandler?: (cardType: keyof typeof mealKinds) => void;
+  /**
+   * 点击卡片具体的菜品回调,参数为meal信息
+   */
+  mealClickHandler?: (meal: singleMeal, type: keyof typeof mealKinds) => void;
 }
 
 export const MealCard: React.FC<MealCardProps> = (props) => {
-  const { type, meals, titleClickHandler } = props;
+  const { type, meals, titleClickHandler, mealClickHandler } = props;
   if (meals.length === 0) {
     return null;
   }
@@ -192,17 +220,21 @@ export const MealCard: React.FC<MealCardProps> = (props) => {
         </Text>
       </View>
       <View className="meals">
-        {meals.map(({ name, heat, weight, poster }) => (
-          <View className="single_meal" key={name}>
+        {meals.map((meal) => (
+          <View
+            className="single_meal"
+            key={meal.name}
+            onClick={() => mealClickHandler && mealClickHandler(meal, type)}
+          >
             <View className="left">
-              <Image src={poster}></Image>
+              <Image src={meal.poster}></Image>
               <View className="weight">
-                <Text>{name}</Text>
-                <Text>{weight}克</Text>
+                <Text>{meal.name}</Text>
+                <Text>{meal.weight}克</Text>
               </View>
             </View>
             <View className="right">
-              <Text>{heat}千卡</Text>
+              <Text>{Math.floor((meal.heat * meal.weight) / 100)}千卡</Text>
               <AtIcon prefixClass="icon" value="pingguo" size={14} />
             </View>
           </View>
