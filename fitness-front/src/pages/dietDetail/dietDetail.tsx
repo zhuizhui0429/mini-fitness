@@ -63,6 +63,7 @@ const DietDetail = () => {
               target={300}
               showTip={false}
               backgroundColor="#ddd"
+              beyondBackGroundColor="lightcoral"
               bottomChildren={<Text>{intake} / 300 克</Text>}
             />
           </View>
