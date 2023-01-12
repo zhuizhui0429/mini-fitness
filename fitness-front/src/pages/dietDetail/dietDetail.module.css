@@ -1,0 +1,6 @@
+.diet_detail_container :global .diet_total {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

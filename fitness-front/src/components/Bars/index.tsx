@@ -11,16 +11,17 @@ interface BarProps {
   width?: number;
   activeBackGroundColor?: CSSProperties["color"];
   backgroundColor?: CSSProperties["color"];
-  // 进度提示的内容,默认为当前进度的百分比
+  showTip?: boolean;
+  // 进度提示的内容,值为default为当前进度的百分比
   tipContent?: string;
   // 进度提示区域的背景色
   tipBackgroundColor?: CSSProperties["color"];
   // 透传给进度提示区域的style
   tipStyle?: CSSProperties;
   // 进度条底部的渲染节点, 节点们flex布局撑开整个宽度
-  bottomChildren?: React.ReactNode[];
+  bottomChildren?: React.ReactNode;
 }
-const Bar: React.FC<BarProps> = (props) => {
+export const Bar: React.FC<BarProps> = (props) => {
   const {
     initial,
     current,
@@ -28,6 +29,7 @@ const Bar: React.FC<BarProps> = (props) => {
     width,
     activeBackGroundColor = "#00d68e",
     backgroundColor = "#b8f4db",
+    showTip = true,
     tipContent,
     tipBackgroundColor = "#fff",
     tipStyle = {},
@@ -51,15 +53,17 @@ const Bar: React.FC<BarProps> = (props) => {
             backgroundColor: activeBackGroundColor,
           }}
         ></View>
-        <Text
-          className="progress_tip"
-          style={Object.assign(tipStyle, {
-            left: `${progress * 100}%`,
-            backgroundColor: tipBackgroundColor,
-          })}
-        >
-          {tipContent || `${+progress * 100}%`}
-        </Text>
+        {showTip && (
+          <Text
+            className="progress_tip"
+            style={Object.assign(tipStyle, {
+              left: `${progress * 100}%`,
+              backgroundColor: tipBackgroundColor,
+            })}
+          >
+            {tipContent || `${+progress * 100}%`}
+          </Text>
+        )}
       </View>
       {bottomChildren && <View className="bottom">{bottomChildren}</View>}
     </View>
