@@ -1,14 +1,9 @@
 .record_container{
-    padding: 20px;
-    padding-bottom: 50px;
-    background-color: #ddd;
-    margin-bottom: 100px;
+    @include gray-bg;
     :global{
         .wrapper{
-            height: 200px;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 10px;
+            height: 260px;
+            @include white-wrapper;
             .goal_area{
                 line-height: 50px;
                 display: flex;
