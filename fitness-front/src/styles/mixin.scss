@@ -1,0 +1,19 @@
+@mixin white-wrapper{
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+@mixin gray-bg{
+    box-sizing: border-box;
+    padding: 30px;
+    padding-bottom: 50px;
+    background-color: #ddd;
+}
+
+@mixin both-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
