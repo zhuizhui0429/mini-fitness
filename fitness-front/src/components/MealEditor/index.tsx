@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { View, Image, Text } from "@tarojs/components";
 import { singleMeal, nutritionKindsMap } from "@/pages/dietDetail/type";
 import Taro from "@tarojs/taro";
@@ -35,6 +35,10 @@ export const MealEditor: React.FC<MealEditorProps> = (props) => {
     }
     setWeight(newWeight);
   };
+  // 需要额外监听initialWeight,否则点击新菜品时weight为上次菜品weight
+  useEffect(() => {
+    setWeight(initialWeight);
+  }, [initialWeight]);
   const dotClickHandler = () => (isInputDecimal.current = true);
   const deleteClickHandler = () => {
     let [integer, decimal = 0] = weight.toString().split(".").map(Number);
