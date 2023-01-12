@@ -196,11 +196,11 @@ export interface MealCardProps {
   /**
    * 点击卡片标题回调,参数为卡片的type
    */
-  titleClickHandler?: (cardType: keyof typeof mealKinds) => void;
+  titleClickHandler?: (cardType: MealCardProps["type"]) => void;
   /**
    * 点击卡片具体的菜品回调,参数为meal信息
    */
-  mealClickHandler?: (meal: singleMeal, type: keyof typeof mealKinds) => void;
+  mealClickHandler?: (meal: singleMeal, type: MealCardProps["type"]) => void;
 }
 
 export const MealCard: React.FC<MealCardProps> = (props) => {
