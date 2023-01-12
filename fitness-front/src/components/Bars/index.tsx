@@ -11,14 +11,26 @@ interface BarProps {
   width?: number;
   activeBackGroundColor?: CSSProperties["color"];
   backgroundColor?: CSSProperties["color"];
+  /**
+   * 进度超出百分百的进度条颜色
+   */
+  beyondBackGroundColor?: CSSProperties["color"];
   showTip?: boolean;
-  // 进度提示的内容,值为default为当前进度的百分比
+  /**
+   * 进度提示的内容,值为default为当前进度的百分比
+   */
   tipContent?: string;
-  // 进度提示区域的背景色
+  /**
+   * 进度提示区域的背景色
+   */
   tipBackgroundColor?: CSSProperties["color"];
-  // 透传给进度提示区域的style
+  /**
+   * 透传给进度提示区域的style
+   */
   tipStyle?: CSSProperties;
-  // 进度条底部的渲染节点, 节点们flex布局撑开整个宽度
+  /**
+   * 进度条底部的渲染节点, 节点们flex布局撑开整个宽度
+   */
   bottomChildren?: React.ReactNode;
 }
 export const Bar: React.FC<BarProps> = (props) => {
@@ -29,6 +41,7 @@ export const Bar: React.FC<BarProps> = (props) => {
     width,
     activeBackGroundColor = "#00d68e",
     backgroundColor = "#b8f4db",
+    beyondBackGroundColor = "#00d68e",
     showTip = true,
     tipContent,
     tipBackgroundColor = "#fff",
@@ -37,7 +50,7 @@ export const Bar: React.FC<BarProps> = (props) => {
   } = props;
   const progress = useMemo(() => {
     const rate = (initial - current) / (initial - target);
-    return Number((rate > 0 ? rate : 0).toFixed(2));
+    return Number((rate > 0 ? (rate > 1 ? 1 : rate) : 0).toFixed(2));
   }, [initial, current, target]);
   return (
     <View
@@ -50,7 +63,8 @@ export const Bar: React.FC<BarProps> = (props) => {
           className="bar_real"
           style={{
             width: `${progress * 100}%`,
-            backgroundColor: activeBackGroundColor,
+            backgroundColor:
+              progress === 1 ? beyondBackGroundColor : activeBackGroundColor,
           }}
         ></View>
         {showTip && (
