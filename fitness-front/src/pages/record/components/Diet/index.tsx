@@ -1,30 +1,30 @@
 import React from "react";
 import { View, Text } from "@tarojs/components";
 import { AtIcon } from "taro-ui";
+import { mealKinds } from "@/pages/dietDetail/type";
 import Taro from "@tarojs/taro";
 import styles from "./index.module.scss";
 
-const eatTimes = ["早", "中", "晚", "加"];
 const options: Array<Pick<RecordOptionProps, "icon" | "optName">> = [
   {
     icon: "zaocan",
-    optName: "早餐",
+    optName: "breakfast",
   },
   {
     icon: "hanbao",
-    optName: "午餐",
+    optName: "lunch",
   },
   {
     icon: "wancan",
-    optName: "晚餐",
+    optName: "dinner",
   },
   {
     icon: "pingguo",
-    optName: "加餐",
+    optName: "extra",
   },
   {
     icon: "yundong-",
-    optName: "运动",
+    optName: "sport",
   },
 ];
 
@@ -35,9 +35,9 @@ interface DietProps {
 }
 export const Diet: React.FC<DietProps> = (props) => {
   const { restHeat, list } = props;
-  const heatBarsRender = eatTimes.map((time, index) => (
+  const heatBarsRender = Object.values(mealKinds).map((kind, index) => (
     <VerticalProgressBar
-      time={time}
+      time={kind}
       progress={list[index]}
       key={index}
     ></VerticalProgressBar>
@@ -46,7 +46,6 @@ export const Diet: React.FC<DietProps> = (props) => {
     <RecordOption key={index} {...option} hasRecorded></RecordOption>
   ));
   const goToDietDetailPage = () => {
-    console.log("跳转详情");
     Taro.navigateTo({
       url: "/pages/dietDetail/dietDetail",
     });
@@ -90,7 +89,7 @@ const VerticalProgressBar: React.FC<VerticalProgressBarProps> = ({
 };
 
 interface RecordOptionProps {
-  optName: string;
+  optName: keyof typeof mealKinds;
   icon: string;
   hasRecorded: boolean;
 }
@@ -109,7 +108,7 @@ const RecordOption: React.FC<RecordOptionProps> = (props) => {
           value={hasRecorded ? "check_bg_black" : "tianjia"}
           size={12}
         ></AtIcon>
-        <Text>{optName}</Text>
+        <Text>{mealKinds[optName]}</Text>
       </View>
     </View>
   );

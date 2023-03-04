@@ -1,0 +1,1 @@
+.select_food_container{height:100vh;display:flex;flex-direction:column}.select_food_container :global .at-search-bar{height:40Px;flex:0 0 auto}.select_food_container :global .select_area{flex:1 1 auto;overflow:hidden}

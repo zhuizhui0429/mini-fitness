@@ -1,11 +1,13 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { View, Text, Image } from "@tarojs/components";
+import { View, Text, Image, CoverView } from "@tarojs/components";
 import { getOneDayHeat, getOneDayMealCardsData } from "@/api";
 import { getHeatChartOption, getNutritionChartOption } from "./option";
 import type { NutritionDataType } from "./option";
 import { Bar, Chart, MealEditor } from "@/comp";
 import { singleMeal, mealKinds, nutritionKindsMap } from "./type";
 import { AtIcon, AtFloatLayout } from "taro-ui";
+import { Calendar, Button } from "@nutui/nutui-react-taro";
+import dayjs from "dayjs";
 import styles from "./dietDetail.module.scss";
 
 definePageConfig({
@@ -14,6 +16,9 @@ definePageConfig({
     "ec-canvas": "../../ec-canvas/ec-canvas",
   },
 });
+type CalendarRefType = {
+  scrollToDate: (date: string) => void;
+};
 const DietDetail = () => {
   const [option, setOption] = useState<ReturnType<typeof getHeatChartOption>>(
     () => getHeatChartOption()
@@ -30,14 +35,10 @@ const DietDetail = () => {
     const data = await getOneDayHeat();
     setOption(getHeatChartOption(data));
   };
-  useEffect(() => {
-    renderHeatChart();
-    const func = async () => {
-      const data = await getOneDayMealCardsData();
-      setCards(data);
-    };
-    func();
-  }, []);
+  const renderMealCard = async () => {
+    const data = await getOneDayMealCardsData();
+    setCards(data);
+  };
   const nutritionBars = useMemo(
     () =>
       Object.keys(nutritionKindsMap).map((nutrition) => {
@@ -103,10 +104,91 @@ const DietDetail = () => {
       }),
     [nutritionData]
   );
+  const [selectedDate, setSelectedDate] = useState<string>(
+    dayjs().format("YYYY-MM-DD")
+  );
+  const [calenderVisible, setCalenderVisible] = useState<boolean>(false);
+  const calenderRef = useRef<CalendarRefType>({} as any);
+  const onChoose = (day: string[]) => setSelectedDate(day[3]);
+  useEffect(() => {
+    renderHeatChart();
+    renderMealCard();
+  }, [selectedDate]);
+  const selectDateBtnText = useMemo(() => {
+    const reg = "YYYY-MM-DD";
+    if (dayjs().subtract(1, "day").format(reg) === selectedDate) {
+      return "昨天";
+    } else if (dayjs().add(1, "day").format(reg) === selectedDate) {
+      return "明天";
+    }
+    return selectedDate;
+  }, [selectedDate]);
   return (
     <View className={styles["diet_detail_container"]}>
+      <View className="calendar_area">
+        <Button onClick={() => setCalenderVisible(true)}>
+          {selectDateBtnText}
+        </Button>
+        <Calendar
+          ref={calenderRef}
+          visible={calenderVisible}
+          defaultValue={selectedDate}
+          startDate="2022-04-29"
+          onClose={() => setCalenderVisible(false)}
+          onChoose={onChoose as any}
+          onBtn={() => (
+            <View className="bottom_opt_area">
+              <Button
+                size="small"
+                type="primary"
+                onClick={() => {
+                  const prevDay = dayjs(selectedDate)
+                    .subtract(1, "day")
+                    .format("YYYY-MM-DD");
+                  calenderRef.current.scrollToDate(prevDay);
+                  setSelectedDate(prevDay);
+                }}
+              >
+                前一天
+              </Button>
+              <Button
+                type="info"
+                size="small"
+                onClick={() => {
+                  calenderRef.current.scrollToDate(
+                    dayjs().format("YYYY-MM-DD")
+                  );
+                  setSelectedDate(dayjs().format("YYYY-MM-DD"));
+                }}
+              >
+                回到今天
+              </Button>
+              <Button
+                size="small"
+                type="primary"
+                onClick={() => {
+                  const nextDay = dayjs(selectedDate)
+                    .add(1, "day")
+                    .format("YYYY-MM-DD");
+                  calenderRef.current.scrollToDate(nextDay);
+                  setSelectedDate(nextDay);
+                }}
+              >
+                后一天
+              </Button>
+            </View>
+          )}
+          showToday
+        />
+      </View>
       <View className="diet_total">
-        <Chart width="100%" height={400} id="heat_chart" option={option} />
+        <Chart
+          style={{ display: calenderVisible ? "none" : "block" }}
+          width="100%"
+          height={400}
+          id="heat_chart"
+          option={option}
+        />
         {nutritionBars}
       </View>
       {cards.map((card) => (

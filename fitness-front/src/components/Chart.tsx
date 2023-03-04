@@ -10,9 +10,10 @@ interface ChartProps {
   option: Record<string, any>;
   show?: boolean;
   id: string;
+  style?: React.CSSProperties;
 }
 export const Chart: React.FC<ChartProps> = (props) => {
-  const { width, height, option, id, show = true } = props;
+  const { width, height, option, id, show = true, style } = props;
   const initChart = useCallback(
     (canvas, width, height, dpr) => {
       const chart = echarts.init(canvas, null, {
@@ -39,6 +40,7 @@ export const Chart: React.FC<ChartProps> = (props) => {
         id={`${id}-dom`}
         canvas-id={id}
         ec={{ onInit: initChart }}
+        style={style}
       ></ec-canvas>
     </View>
   );

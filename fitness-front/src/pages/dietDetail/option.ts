@@ -1,6 +1,6 @@
 import type { HeatData } from '@/api'
 import Taro from '@tarojs/taro'
-import { nutritionKindsMap } from './dietDetail'
+import { nutritionKindsMap } from './type'
 
 /**
  * 获取对象类型的所有属性的值类型组成的联合类型
@@ -51,19 +51,22 @@ export const getHeatChartOption = (data?: HeatData) => ({
         trigger: "item",
         valueFormatter: (val) => `${val}kj`,
         textStyle: {
-            fontSize: Taro.pxTransform(28),
+            fontSize: Taro.pxTransform(24),
         },
+        position: 'inside'
     },
     legend: {
-        top: "5%",
-        left: "center",
-        itemGap: 15
+        top: "middle",
+        left: "5%",
+        itemGap: 15,
+        orient: "vertical",
     },
     series: [
         {
             type: "pie",
             radius: ["50%", "65%"],
             avoidLabelOverlap: false,
+            left: '60',
             label: {
                 show: false,
                 position: "center",

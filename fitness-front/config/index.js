@@ -11,7 +11,7 @@ const config = {
   },
   sourceRoot: "src",
   outputRoot: "dist",
-  plugins: [],
+  plugins: ["@tarojs/plugin-html"],
   defineConstants: {},
   copy: {
     patterns: [],
@@ -26,7 +26,9 @@ const config = {
     postcss: {
       pxtransform: {
         enable: true,
-        config: {},
+        config: {
+          selectorBlackList: ["nut-"],
+        },
       },
       url: {
         enable: true,
@@ -52,6 +54,7 @@ const config = {
         path.resolve(__dirname, "..", "src/styles/variable.scss"),
         path.resolve(__dirname, "..", "src/styles/mixin.scss"),
       ],
+      data: `@import "@nutui/nutui-react-taro/dist/styles/variables.scss";`,
     },
   },
   h5: {

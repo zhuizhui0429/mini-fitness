@@ -1,12 +1,27 @@
 .diet_detail_container{
     @include gray-bg;
+    padding-top: 0px;
     :global{
+        .bottom_opt_area{
+            button{
+                margin-right: 15px;
+            }
+        }
+        .calendar_area{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 140px;
+        }
         .diet_total{
             width: 100%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             @include white-wrapper;
+            #heat_chart-dom{
+                height: 100%;
+            }
             .nutrition_bar{
                 .kind{
                     line-height: 60px;

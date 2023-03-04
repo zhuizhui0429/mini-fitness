@@ -1,0 +1,93 @@
+.select_food_container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    :global{
+        .at-float-layout{
+            z-index: 3000 !important;
+        }
+        .at-tabs__header .at-tabs__item{
+            font-size:28px !important;
+            font-weight: bold;
+        }
+        .select_area{
+            flex: 1 1 auto;
+            overflow: hidden;
+        }
+        .food_wrapper{
+            max-height: 100vh;
+            padding: 30px;
+            padding-top: 10px;
+        }
+        .date_info{
+            font-size: $boldFontSize;
+            height: 40px;
+            @include both-center;
+        }
+        .search_area{
+            width: 100vw;
+            height: 100vh;
+            @include white-wrapper;
+            .search_record{
+                display: flex;
+                flex-wrap: wrap;
+                .title{
+                    width: 100%;
+                    font-size: $boldFontSize;
+                    line-height: 60px;
+                    margin-bottom: 20px;
+                }
+                .record_item{
+                    line-height: 70px;
+                    font-size: 32px;
+                    padding: 0px 30px;
+                    border-radius: 40px;
+                    margin-right: 25px;
+                    background-color: gray;
+                }
+            }
+        }
+    }
+}
+
+.single_food_container{
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    :global{
+        .left{
+            display: flex;
+            align-items: center;
+            image{
+                width: 80px;
+                height: 80px;
+                border-radius: 10px;
+                margin-right: 15px;
+            }
+            .detail{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .name{
+                    font-size: 32px;
+                    margin-bottom: 10px;
+                }
+                view{
+                    color:gray;
+                    font-size: $smallFontSize;
+                    .heat{
+                        color: lightsalmon;
+                    }
+                }
+            }
+        }
+        .green_dot{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: $healthyGreen;
+        }
+    }
+}
+

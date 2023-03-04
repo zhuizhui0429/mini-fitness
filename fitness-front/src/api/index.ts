@@ -1,4 +1,6 @@
 import type { MealCardProps } from "@/pages/dietDetail/dietDetail"
+import type { singleMeal } from '@/pages/dietDetail/type'
+import { tabs } from '@/pages/add/config'
 
 export type HeatData = Array<{
     name: "预算热量" | "摄入热量" | "运动消耗",
@@ -67,6 +69,30 @@ export async function getOneDayMealCardsData(date?: Date): Promise<OneDayMealCar
             }]
         }
     ]
+}
+
+export type AllFoodType = Record<typeof tabs[number], Array<Omit<singleMeal, 'weight'>>>
+export async function getAllFood() {
+    await sleep(getRandomNum(200, 1000))
+    const res: AllFoodType = {} as any
+    tabs.forEach(tab => {
+        const foods: Array<Omit<singleMeal, 'weight'>> = []
+        const num = getRandomNum(3, 10)
+        for (let i = 0; i < num; i++) {
+            foods.push({
+                poster,
+                name: '米饭',
+                heat: getRandomNum(100, 600),
+                rate: {
+                    protein: Number(Math.random().toFixed(2)),
+                    carbs: Number(Math.random().toFixed(2)),
+                    fat: Number(Math.random().toFixed(2)),
+                }
+            })
+        }
+        res[tab] = foods
+    })
+    return res
 }
 
 

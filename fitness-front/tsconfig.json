@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2019",
     "module": "commonjs",
     "removeComments": false,
     "preserveConstEnums": true,
@@ -24,7 +24,7 @@
     "paths": {
       "@/comp":["./src/components/index"],
       "@/api":["./src/api"],
-      "@/pages/*":["./src/pages/*"]
+      "@/pages/*":["./src/pages/*"],
     },
     "esModuleInterop": true
   },

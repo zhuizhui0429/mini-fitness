@@ -6,6 +6,10 @@ import { AtIcon } from "taro-ui";
 import styles from "./index.module.scss";
 
 interface MealEditorProps extends Omit<singleMeal, "weight"> {
+  /**
+   * 编辑器最顶部追加渲染的内容
+   */
+  topRender?: React.ReactNode;
   initialWeight: number;
   /**
    * 点击保存按钮的回调
@@ -18,7 +22,7 @@ interface MealEditorProps extends Omit<singleMeal, "weight"> {
 }
 const numKeys = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 export const MealEditor: React.FC<MealEditorProps> = (props) => {
-  const { name, initialWeight, rate, heat, poster, onSave, onExit } = props;
+  const { name, initialWeight, rate, heat, poster, onSave, onExit,topRender = null } = props;
   const [weight, setWeight] = useState<number>(+initialWeight.toFixed(1));
   const isInputDecimal = useRef<boolean>(false);
   const integerClickHandler = (int: number) => {
@@ -67,6 +71,7 @@ export const MealEditor: React.FC<MealEditorProps> = (props) => {
   );
   return (
     <View className={styles["meal_editor_container"]}>
+      {topRender}
       <View className="meal_preview">
         <Image src={poster} />
         <View className="detail">
