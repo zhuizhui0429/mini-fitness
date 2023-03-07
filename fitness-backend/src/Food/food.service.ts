@@ -26,4 +26,21 @@ export class FoodService {
         const entity = this.foodRepository.create(food)
         return await this.foodRepository.save(entity)
     }
+
+    /**
+     * 
+     * @param data 新的食物数据
+     * @returns 
+     */
+    async updateFood(data: updateFoodBodyType & { foodId: number }) {
+        const { foodId } = data
+        const entity = await this.foodRepository.findOne({ where: { id: foodId } })
+        if (!entity) {
+            throw new HttpException('当前食物不存在,请先创建', HttpStatus.FORBIDDEN)
+        }
+        return await this.foodRepository.save({ ...entity, ...data })
+    }
 }
+
+
+export type updateFoodBodyType = Partial<Omit<Food, 'id'>>
