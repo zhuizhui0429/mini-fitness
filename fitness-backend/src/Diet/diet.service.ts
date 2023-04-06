@@ -70,7 +70,14 @@ export class DietService {
             }
             const target = res.find(it => it.type === type)
             if (target) {
-                target.meals.push(meal)
+                //同一用户同一天同一类型的meal进行相同饮食记录的去重即重量叠加
+                const sameMeal = target.meals.find(meal => meal.name === name)
+                if (sameMeal) {
+                    sameMeal.weight += weight
+                }
+                else {
+                    target.meals.push(meal)
+                }
             }
             else {
                 res.push({
@@ -118,7 +125,7 @@ export class DietService {
 
 export type addDietRecordBodyType = {
     foodId: number,
-    creatorId: number
+    creatorId: number,
 } & Pick<DietRecord, 'type' | 'weight'>
 
 export type queryOneDayDietBodyType = {
@@ -135,6 +142,7 @@ export type OneDayDiet = Array<{
     type: dietRecordType,
     meals: Array<Pick<Food, 'poster' | 'name' | 'heat'> & {
         rate: Pick<Food, 'carbs' | 'protein' | 'fat'>,
-        weight: number
+        weight: number,
+        id: number
     }>
 }>
