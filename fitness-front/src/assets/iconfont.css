@@ -20,6 +20,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-tupian1:before {
+  content: "\e67f";
+}
+
+.icon-shipinbofang:before {
+  content: "\e600";
+}
+
+.icon-tupian:before {
+  content: "\e63a";
+}
+
+.icon-shipin:before {
+  content: "\e60b";
+}
+
 .icon-shouqijianpan:before {
   content: "\e62d";
 }
