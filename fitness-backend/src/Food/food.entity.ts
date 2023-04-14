@@ -2,6 +2,9 @@
 import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 
+export const foodKinds =
+    ['主食', '蔬菜', '肉蛋奶', '豆类坚果', '零食饮料'] as const
+
 @Entity()
 export class Food {
     @PrimaryGeneratedColumn()
@@ -9,6 +12,9 @@ export class Food {
     @Column({ length: 100 })
     @ApiProperty({ description: '食物名称' })
     name: string;
+    @Column({ length: 100 })
+    @ApiProperty({ description: '食物类型' })
+    type: string
     @Column({ length: 200 })
     @ApiProperty({ description: '食物海报' })
     poster: string;
