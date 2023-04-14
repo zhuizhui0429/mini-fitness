@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, SetMetadata } from '@nestjs/common';
-import { FoodService, updateFoodBodyType } from './food.service'
-import { Food } from './food.entity'
+import { FoodService, updateFoodBodyType } from './food.service';
+import { Food } from './food.entity';
 import { ApiOperation, ApiTags, ApiBody, ApiParam } from '@nestjs/swagger';
 
 const updateFoodBodyExample: Food = {
@@ -10,7 +10,8 @@ const updateFoodBodyExample: Food = {
     heat: 255,
     carbs: 10,
     protein: 1,
-    fat: 6
+    fat: 6,
+    type: '主食'
 }
 
 @Controller()
@@ -18,8 +19,8 @@ const updateFoodBodyExample: Food = {
 export class FoodController {
     constructor(private readonly FoodService: FoodService) { }
     @Get('/allFood')
-    getAllFood() {
-        return this.FoodService.findAll()
+    async getAllFood() {
+        return await this.FoodService.findAll()
     }
 
     @ApiOperation({ description: '上传自定义食物' })
