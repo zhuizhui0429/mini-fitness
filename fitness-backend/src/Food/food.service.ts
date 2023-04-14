@@ -1,7 +1,9 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Food } from './food.entity';
+import { Food, foodKinds } from './food.entity';
+
+type SingleFoodType = Omit<Food, 'protein' | 'carbs' | 'fat' | 'type'> & { rate: Pick<Food, 'carbs' | 'fat' | 'protein'> }
 
 @Injectable()
 export class FoodService {
@@ -10,8 +12,23 @@ export class FoodService {
         private foodRepository: Repository<Food>,
     ) { }
 
-    findAll(): Promise<Food[]> {
-        return this.foodRepository.find();
+    async findAll() {
+        let allFood = await this.foodRepository.find()
+        const res: Record<Food['type'], SingleFoodType[]> = {} as any
+        foodKinds.forEach(type => {
+            res[type] = allFood.filter(food => food.type === type).map(({ id, carbs, fat, poster, protein, name, heat }) => ({
+                id,
+                poster,
+                name,
+                heat,
+                rate: {
+                    carbs,
+                    fat,
+                    protein
+                }
+            }))
+        })
+        return res
     }
 
     async remove(id: string): Promise<void> {
