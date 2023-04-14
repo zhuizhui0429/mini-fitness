@@ -2,22 +2,9 @@ import { Controller, Get, Post, Body, Query, SetMetadata } from '@nestjs/common'
 import { DietService } from './diet.service'
 import { ApiOperation, ApiTags, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { dietRecordType, DietRecord } from './diet.entity'
-import { addDietRecordBodyType, queryOneDayDietBodyType, updateDietRecordWeightQueryType } from './diet.service'
+import { addDietRecordBodyExample, queryOneDayDietBodyExample } from './diet.example'
+import type { addDietRecordBodyType, queryOneDayDietBodyType, updateDietRecordWeightQueryType } from './diet.service'
 
-const addDietRecordBodyExample: addDietRecordBodyType = {
-    foodId: 1,
-    creatorId: 1,
-    weight: 22,
-    type: 'breakfast'
-}
-const queryOneDayDietBodyExample: queryOneDayDietBodyType = {
-    userId: 1,
-    date: new Date().toString()
-}
-const updateDietRecordWeightQueryExample: updateDietRecordWeightQueryType = {
-    weight: 999,
-    id: 23
-}
 @Controller()
 @ApiTags('diet_record')
 export class DietController {
