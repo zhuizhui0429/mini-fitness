@@ -1,13 +1,12 @@
 import { DataSource } from 'typeorm';
-import { DietRecord } from './Diet/diet.entity'
-import { Food } from './Food/food.entity'
-import { User } from './User/user.entity'
+import { DietRecord, Food, User, Media, Schedule } from './entities'
+
 
 let db = new DataSource({
     type: "mysql",
     synchronize: true,
     database: "mini-fitness",
-    entities: [DietRecord, Food, User],
+    entities: [DietRecord, Food, User, Media, Schedule],
     host: 'localhost',
     port: 3306,
     username: 'root',
