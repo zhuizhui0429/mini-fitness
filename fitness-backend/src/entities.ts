@@ -1,0 +1,5 @@
+export { Schedule } from './Schedule/schedule.entity'
+export { DietRecord } from './Diet/diet.entity'
+export { Food } from './Food/food.entity'
+export { Media } from './Media/media.entity'
+export { User } from './User/user.entity'
