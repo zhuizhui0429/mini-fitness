@@ -1,13 +1,25 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'
-import { DietRecord } from '../Diet/diet.entity'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import { Schedule, DietRecord } from '../entities'
 @Entity()
 export class User {
-    @PrimaryColumn({ length: 255 })
-    id: string
-    @Column({ length: 25 })
+    @PrimaryGeneratedColumn()
+    id: number
+
+    /**
+     * 小程序的用户唯一标识id
+     */
+    @Column({ length: 255 })
+    openid: string
+
+    @Column({ length: 25, nullable: true })
     nickname: string
-    @Column()
+
+    @Column({ nullable: true })
     avatar: string
+
     @OneToMany(type => DietRecord, record => record.creator)
     dietRecord: DietRecord[]
+
+    @OneToMany(type => Schedule, schedule => schedule.creator)
+    schedules: Schedule[]
 }
