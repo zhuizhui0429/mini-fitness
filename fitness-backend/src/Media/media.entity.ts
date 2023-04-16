@@ -19,6 +19,10 @@ export class Media {
     @ApiProperty({ description: '媒体资源的文件名称' })
     fileName: string
 
+    @Column({ type: 'date' })
+    @ApiProperty({ description: '上传媒体的日期' })
+    date: string
+
     @ManyToOne(() => Schedule, schedule => schedule.medias)
     schedule: Schedule
 }
