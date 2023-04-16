@@ -7,14 +7,19 @@ export type dietRecordType = 'breakfast' | 'lunch' | 'dinner'
 export class DietRecord {
     @PrimaryGeneratedColumn()
     id: number
+
     @Column()
     type: dietRecordType
+
     @Column({ type: 'date' })
     date: string
+
     @Column()
     weight: number
+
     @ManyToOne(type => Food)
     meal: Food
+
     @ManyToOne(type => User, user => user.dietRecord)
     creator: User
 }
