@@ -1,7 +1,7 @@
 /* eslint-disable jsx-quotes */
 import React, { memo, ReactElement } from "react";
 import { View, Text } from "@tarojs/components";
-import { Card } from "../../../../components";
+import { Card } from "@/comp";
 import Taro from "@tarojs/taro";
 import styles from "./index.module.scss";
 
@@ -12,7 +12,7 @@ interface singleKnowledge {
 interface KnowledgeProps {
   list: Array<singleKnowledge>;
 }
-const KnowledgeCard: React.FC<KnowledgeProps> = memo((props) => {
+export const KnowledgeCard: React.FC<KnowledgeProps> = memo((props) => {
   const { list } = props;
   const prefix = (
     <View
