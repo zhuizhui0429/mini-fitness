@@ -1,0 +1,27 @@
+.create_schedule_container{
+    height: 100vh;
+    @include gray-bg;
+    :global{
+        .poster{
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0px 46px;
+            font-size: 34px;
+            background-color: white;
+            border-bottom: 2px solid  #eaf0fb;
+            .title{
+                padding: 0px 15px;
+                flex: 0 0 auto;
+            }
+            .at-image-picker{
+                flex: 1 1 auto;
+            }
+        }
+        .submit{
+            @include both-center;
+            height: 180px;
+        }
+    }
+}
