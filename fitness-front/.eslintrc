@@ -4,6 +4,7 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "jsx-quotes":"off",
-    "import/first":"off"
+    "import/first":"off",
+    "react-hooks/exhaustive-deps":"off"
   }
 }
