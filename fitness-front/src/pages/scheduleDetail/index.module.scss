@@ -1,0 +1,142 @@
+.schedule_detail_container{
+    @include white-wrapper;
+    :global{
+        .schedule_overview{
+            display: flex;
+            height: 200px;
+            .left{
+                flex: 0 0 200px;
+                height: 100%;
+                margin-right:16px;
+                image{
+                    width: 200px;
+                    height: 200px;
+                    object-fit: cover;
+                    border-radius: 15px;
+                    margin-bottom: 6px;
+                }
+            }
+            .right{
+                box-sizing: border-box;
+                padding: 10px;
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                height: 100%;
+                .title{
+                    font-size: 36px;
+                    margin-bottom:15px;
+                }
+                .createInfo{
+                    display: flex;
+                    align-items: center;
+                    font-size: 24px;
+                    margin-bottom:15px;
+                    image{
+                        width: 70px;
+                        height: 70px;
+                        margin:0px 8px;
+                        object-fit: cover;
+                        border-radius: 50%;
+                    }
+                    .creator,.date{
+                        display: block;
+                        margin-right:8px;
+                    }
+                    .date{
+                        margin-left: 8px;
+                        color: lightsteelblue;
+                    }
+                }
+                .mediaNum{
+                    display: flex;
+                    font-size: 24px;
+                    margin-bottom:15px;
+                    .img,.video{
+                        @include both-center;
+                    }
+                    .img{
+                        margin-right: 30px;
+                    }
+                    .num{
+                        margin-left: 6px;
+                    }
+                }
+            }
+        }
+       .desc{
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            color: lightslategrey;
+            font-size: 30px;
+            display:-webkit-box;
+            -webkit-line-clamp:2;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            -webkit-box-orient:vertical;
+            word-break:break-all;
+            max-height: 80px;
+        }
+        .empty{
+            height: 400px;
+            @include both-center;
+            flex-direction: column;
+        }
+        .add_media_btn{
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: rgba(106, 90, 205,0.8);
+            @include both-center;
+            font-size: 40px;
+            font-weight: bold;
+            position: fixed;
+            right: 40px;
+            bottom: 100px;
+            .at-image-picker{
+                height: 100%;
+                .at-image-picker__flex-item{
+                    display: none;
+                }
+                .at-image-picker__flex-item:nth-child(1){
+                    display: block;
+                    .at-image-picker__choose-btn{
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.album_by_date_container{
+    :global{
+        .date{
+            font-size: 36px;
+            margin: 24px 0px;
+            display: block;
+        }
+        .media_area{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap:6px;
+            grid-auto-flow: row dense;
+            .media_wrapper{
+                position: relative;
+                width: 100%;
+                height: 0px;
+                padding-top: 100%;
+                image,video{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+.schedule_detail_container :global .schedule_overview .schedule_overview {
+  display: flex;
+  height: 200px;
+}
+
+.schedule_detail_container :global .schedule_overview .schedule_overview .left {
+  flex: 0 0 150px;
+  height: 100%;
+}
+
+.schedule_detail_container :global .schedule_overview .schedule_overview .left image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.schedule_detail_container :global .schedule_overview .schedule_overview .right {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
