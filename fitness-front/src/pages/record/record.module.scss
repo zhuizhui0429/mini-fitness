@@ -1,5 +1,6 @@
 .record_container{
     @include gray-bg;
+    min-height: 100vh;
     :global{
         .wrapper{
             height: 260px;
