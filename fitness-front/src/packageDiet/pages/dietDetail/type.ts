@@ -11,6 +11,10 @@ export const nutritionKindsMap = {
     fat: "脂肪",
 };
 export type singleMeal = {
+    /**
+     * 饮食记录的id
+     */
+    id: number;
     poster: string;
     name: string;
     weight: number;
@@ -19,7 +23,7 @@ export type singleMeal = {
      */
     heat: number;
     /**
-     * 该菜品的碳蛋脂含量,实际含量为·rate*weight
+     * 100g该菜品的碳蛋脂含量,实际含量为rate*weight/100
      */
     rate: Record<keyof typeof nutritionKindsMap, number>;
 };

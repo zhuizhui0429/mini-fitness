@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, { useCallback, useEffect } from "react";
-import * as echarts from "../ec-canvas/echarts";
+import * as echarts from "./ec-canvas/echarts";
 import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 

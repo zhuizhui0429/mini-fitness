@@ -19,13 +19,12 @@ export const getNutritionChartOption = (data: NutritionDataType) => ({
     },
     legend: {
         top: "12%",
-        right: "5%",
+        right: "0%",
         orient: "vertical",
     },
     series: [
         {
             type: "pie",
-            // radius: ["50%", "65%"],
             left: -100,
             avoidLabelOverlap: false,
             label: {

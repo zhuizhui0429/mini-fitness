@@ -1,25 +1,33 @@
-import { useState, useEffect, useMemo, useRef } from "react";
-import { View, Text, Image, CoverView } from "@tarojs/components";
-import { getOneDayHeat, getOneDayMealCardsData } from "@/api";
+import { useState, useEffect, useMemo, useRef, useContext } from "react";
+import { View, Text, Image } from "@tarojs/components";
+import {
+  getOneDayHeat,
+  getOneDayMealCardsData,
+  updateDietRecordWeight,
+} from "@/api";
 import { getHeatChartOption, getNutritionChartOption } from "./option";
 import type { NutritionDataType } from "./option";
-import { Bar, Chart, MealEditor } from "@/comp";
+import { Bar, MealEditor } from "@/comp";
+import { Chart } from "./Chart";
 import { singleMeal, mealKinds, nutritionKindsMap } from "./type";
 import { AtIcon, AtFloatLayout } from "taro-ui";
 import { Calendar, Button } from "@nutui/nutui-react-taro";
 import dayjs from "dayjs";
+import { globalContext } from "@/context";
 import styles from "./dietDetail.module.scss";
 
 definePageConfig({
   navigationBarTitleText: "饮食详情",
   usingComponents: {
-    "ec-canvas": "../../ec-canvas/ec-canvas",
+    "ec-canvas": "./ec-canvas/ec-canvas",
   },
 });
 type CalendarRefType = {
   scrollToDate: (date: string) => void;
 };
 const DietDetail = () => {
+  const ctx = useContext(globalContext);
+
   const [option, setOption] = useState<ReturnType<typeof getHeatChartOption>>(
     () => getHeatChartOption()
   );
@@ -31,14 +39,21 @@ const DietDetail = () => {
   const toEditType = useRef<keyof typeof mealKinds>("breakfast");
   // 点击的卡片类型
   const [cardType, setCardType] = useState<MealCardProps["type"]>("breakfast");
+
+  const [selectedDate, setSelectedDate] = useState<string>(
+    dayjs().format("YYYY-MM-DD")
+  );
+
   const renderHeatChart = async () => {
     const data = await getOneDayHeat();
     setOption(getHeatChartOption(data));
   };
   const renderMealCard = async () => {
-    const data = await getOneDayMealCardsData();
-    setCards(data);
+    const res = await getOneDayMealCardsData(selectedDate, ctx.userId);
+    console.log("cards", res.data.data);
+    setCards(res.data.data);
   };
+
   const nutritionBars = useMemo(
     () =>
       Object.keys(nutritionKindsMap).map((nutrition) => {
@@ -48,7 +63,8 @@ const DietDetail = () => {
             (acc, card) =>
               acc +
               card.meals.reduce(
-                (total, meal) => total + meal.weight * meal.rate[nutrition],
+                (total, meal) =>
+                  total + (meal.weight / 100) * meal.rate[nutrition],
                 0
               ),
             0
@@ -72,6 +88,7 @@ const DietDetail = () => {
       }),
     [cards]
   );
+
   const nutritionData: NutritionDataType = useMemo(
     () =>
       Object.entries(nutritionKindsMap).map(([key, name]) => ({
@@ -80,12 +97,14 @@ const DietDetail = () => {
           cards
             .find((it) => it.type === cardType)
             ?.meals.reduce(
-              (acc, cur) => acc + Math.floor(cur.weight * cur.rate[key]),
+              (acc, cur) =>
+                acc + Math.floor((cur.weight / 100) * cur.rate[key]),
               0
             ) || 0,
       })),
     [cards, cardType]
   );
+
   const nutritionChartOption = useMemo(
     () => getNutritionChartOption(nutritionData),
     [nutritionData]
@@ -104,16 +123,16 @@ const DietDetail = () => {
       }),
     [nutritionData]
   );
-  const [selectedDate, setSelectedDate] = useState<string>(
-    dayjs().format("YYYY-MM-DD")
-  );
+
   const [calenderVisible, setCalenderVisible] = useState<boolean>(false);
   const calenderRef = useRef<CalendarRefType>({} as any);
   const onChoose = (day: string[]) => setSelectedDate(day[3]);
+
   useEffect(() => {
     renderHeatChart();
     renderMealCard();
   }, [selectedDate]);
+
   const selectDateBtnText = useMemo(() => {
     const reg = "YYYY-MM-DD";
     if (dayjs().subtract(1, "day").format(reg) === selectedDate) {
@@ -123,6 +142,22 @@ const DietDetail = () => {
     }
     return selectedDate;
   }, [selectedDate]);
+
+  const ChartRender = useMemo(
+    () => (
+      <Chart
+        style={{
+          display: calenderVisible || isOpenMealEditor ? "none" : "block",
+        }}
+        width="100%"
+        height={400}
+        id="heat_chart"
+        option={option}
+      />
+    ),
+    [calenderVisible, isOpenMealEditor, option]
+  );
+
   return (
     <View className={styles["diet_detail_container"]}>
       <View className="calendar_area">
@@ -182,13 +217,7 @@ const DietDetail = () => {
         />
       </View>
       <View className="diet_total">
-        <Chart
-          style={{ display: calenderVisible ? "none" : "block" }}
-          width="100%"
-          height={400}
-          id="heat_chart"
-          option={option}
-        />
+        {ChartRender}
         {nutritionBars}
       </View>
       {cards.map((card) => (
@@ -241,7 +270,7 @@ const DietDetail = () => {
           <MealEditor
             {...toEditMeal.current}
             initialWeight={toEditMeal.current.weight}
-            onSave={(meal) => {
+            onSave={async (meal: singleMeal) => {
               const newCards = cards.map((card) => {
                 if (card.type !== toEditType.current) {
                   return card;
@@ -260,6 +289,7 @@ const DietDetail = () => {
                 };
               });
               setCards(newCards);
+              await updateDietRecordWeight(meal.id, meal.weight);
               setIsOpenMealEditor(false);
             }}
             onExit={() => setIsOpenMealEditor(false)}
@@ -287,9 +317,6 @@ export interface MealCardProps {
 
 export const MealCard: React.FC<MealCardProps> = (props) => {
   const { type, meals, titleClickHandler, mealClickHandler } = props;
-  if (meals.length === 0) {
-    return null;
-  }
   return (
     <View className={styles["meal_card_container"]}>
       <View
@@ -298,30 +325,37 @@ export const MealCard: React.FC<MealCardProps> = (props) => {
       >
         <Text className="title">{mealKinds[type]}</Text>
         <Text className="total_heat">
-          {`${meals.reduce((acc, cur) => acc + cur.heat, 0)}千卡`}
+          {`${meals.reduce(
+            (acc, cur) => acc + Math.floor((cur.heat * cur.weight) / 100),
+            0
+          )}千卡`}
           <AtIcon prefixClass="icon" value="pingguo" size={14} />
         </Text>
       </View>
       <View className="meals">
-        {meals.map((meal) => (
-          <View
-            className="single_meal"
-            key={meal.name}
-            onClick={() => mealClickHandler && mealClickHandler(meal, type)}
-          >
-            <View className="left">
-              <Image src={meal.poster}></Image>
-              <View className="weight">
-                <Text>{meal.name}</Text>
-                <Text>{meal.weight}克</Text>
+        {meals.length > 0 ? (
+          meals.map((meal) => (
+            <View
+              className="single_meal"
+              key={meal.name}
+              onClick={() => mealClickHandler && mealClickHandler(meal, type)}
+            >
+              <View className="left">
+                <Image src={meal.poster}></Image>
+                <View className="weight">
+                  <Text>{meal.name}</Text>
+                  <Text>{meal.weight}克</Text>
+                </View>
+              </View>
+              <View className="right">
+                <Text>{Math.floor((meal.heat * meal.weight) / 100)}千卡</Text>
+                <AtIcon prefixClass="icon" value="pingguo" size={14} />
               </View>
             </View>
-            <View className="right">
-              <Text>{Math.floor((meal.heat * meal.weight) / 100)}千卡</Text>
-              <AtIcon prefixClass="icon" value="pingguo" size={14} />
-            </View>
-          </View>
-        ))}
+          ))
+        ) : (
+          <View className="no_record">暂无对应饮食记录</View>
+        )}
       </View>
     </View>
   );
