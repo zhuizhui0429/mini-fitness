@@ -20,9 +20,19 @@ const config = {
   framework: "react",
   compiler: "webpack5",
   cache: {
-    enable: false, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+    // enable: true, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+  },
+  compiler: {
+    type: "webpack5",
+    // 仅 webpack5 支持依赖预编译配置
+    prebundle: {
+      enable: true,
+    },
   },
   mini: {
+    optimizeMainPackage: {
+      enable: true,
+    },
     postcss: {
       pxtransform: {
         enable: true,
@@ -48,6 +58,13 @@ const config = {
       "@/comp": path.resolve(__dirname, "..", "src/components"),
       "@/api": path.resolve(__dirname, "..", "src/api"),
       "@/pages": path.resolve(__dirname, "..", "src/pages"),
+      "@/add": path.resolve(__dirname, "..", "src/packageDiet/pages/add"),
+      "@/dietDetail": path.resolve(
+        __dirname,
+        "..",
+        "src/packageDiet/pages/dietDetail"
+      ),
+      "@/context": path.resolve(__dirname, "..", "src/globalCtx.tsx"),
     },
     sass: {
       resource: [
@@ -55,6 +72,26 @@ const config = {
         path.resolve(__dirname, "..", "src/styles/mixin.scss"),
       ],
       data: `@import "@nutui/nutui-react-taro/dist/styles/variables.scss";`,
+    },
+    webpackChain: (chain) => {
+      // chain.merge({
+      //   plugin: {
+      //     install: {
+      //       plugin: require("terser-webpack-plugin"),
+      //       args: [
+      //         {
+      //           terserOptions: {
+      //             compress: true, // 默认使用terser压缩
+      //             // mangle: false,
+      //             keep_classnames: true, // 不改变class名称
+      //             keep_fnames: true, // 不改变函数名称
+      //           },
+      //         },
+      //       ],
+      //     },
+      //   },
+      // });
+      // chain.optimization.sideEffects(false);
     },
   },
   h5: {

@@ -25,6 +25,9 @@
       "@/comp":["./src/components/index"],
       "@/api":["./src/api"],
       "@/pages/*":["./src/pages/*"],
+      "@/add/*":["./src/packageDiet/pages/add/*"],
+      "@/dietDetail/*":["./src/packageDiet/pages/dietDetail/*"],
+      "@/context":["./src/globalCtx.tsx"]
     },
     "esModuleInterop": true
   },
