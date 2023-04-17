@@ -1,6 +1,9 @@
 import { useState, useRef, useMemo, useEffect } from "react";
 import { View, Image, Text } from "@tarojs/components";
-import { singleMeal, nutritionKindsMap } from "@/pages/dietDetail/type";
+import {
+  singleMeal,
+  nutritionKindsMap,
+} from "../../packageDiet/pages/dietDetail/type";
 import Taro from "@tarojs/taro";
 import { AtIcon } from "taro-ui";
 import styles from "./index.module.scss";
@@ -22,7 +25,16 @@ interface MealEditorProps extends Omit<singleMeal, "weight"> {
 }
 const numKeys = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 export const MealEditor: React.FC<MealEditorProps> = (props) => {
-  const { name, initialWeight, rate, heat, poster, onSave, onExit,topRender = null } = props;
+  const {
+    name,
+    initialWeight,
+    rate,
+    heat,
+    poster,
+    onSave,
+    onExit,
+    topRender = null,
+  } = props;
   const [weight, setWeight] = useState<number>(+initialWeight.toFixed(1));
   const isInputDecimal = useRef<boolean>(false);
   const integerClickHandler = (int: number) => {
@@ -87,7 +99,7 @@ export const MealEditor: React.FC<MealEditorProps> = (props) => {
         {Object.keys(nutritionKindsMap).map((kind) => (
           <View key={kind}>
             <Text>{nutritionKindsMap[kind]}</Text>
-            <Text>{Math.floor(weight * rate[kind])}克</Text>
+            <Text>{Math.floor((weight / 100) * rate[kind])}克</Text>
           </View>
         ))}
       </View>
