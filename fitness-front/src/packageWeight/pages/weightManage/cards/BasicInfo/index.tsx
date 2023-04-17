@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, Image } from "@tarojs/components";
-import { Card } from "../../../../components";
+import { Card,KnowLedgeCards } from "@/comp";
 import { AtModal, AtModalContent } from "taro-ui";
-import { BMIBar, KnowLedgeCards } from "../../components";
+import { BMIBar } from "../../components";
 import styles from "./index.module.scss";
 
 export const BasicInfo = () => {

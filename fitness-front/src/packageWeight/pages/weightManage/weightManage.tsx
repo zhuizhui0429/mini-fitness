@@ -8,7 +8,7 @@ const WeightManage = () => {
     <View className={styles["weight_manage_container"]}>
       <BasicInfo />
       <WeightGoal />
-      <ManageWays />
+      {/* <ManageWays /> */}
     </View>
   );
 };

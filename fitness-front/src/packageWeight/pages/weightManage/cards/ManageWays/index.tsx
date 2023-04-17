@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "@tarojs/components";
-import { Card, SmallWeightBar, DateBar } from "../../../../components";
+import { Card, SmallWeightBar, DateBar } from "@/comp";
 import styles from "./index.module.scss";
 
 export const ManageWays = () => {
