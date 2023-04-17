@@ -39,7 +39,7 @@ export class ScheduleController {
             scheduleId,
             medias: medias.map(({ url, mimetype, originalname }) => ({
                 url,
-                type: mimetype,
+                type: mimetype.split('/')[0],
                 fileName: originalname
             }))
         })
@@ -52,5 +52,13 @@ export class ScheduleController {
     @ApiQuery({ name: 'scheduleId', description: '计划id' })
     async getMediasOfSchedule(@Query('scheduleId') scheduleId: number) {
         return await this.scheduleService.getMediasOfSchedule(scheduleId)
+    }
+
+    @Get('/getOneScheduleInfo')
+    @ApiOperation({ description: '获取某个计划的详细信息' })
+    @SetMetadata('successMessage', '获取计划详情成功')
+    @ApiQuery({ name: 'scheduleId', description: '计划id' })
+    async getOneScheduleInfo(@Query('scheduleId') scheduleId: number) {
+        return await this.scheduleService.getOneScheduleInfo(scheduleId)
     }
 }

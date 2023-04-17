@@ -27,19 +27,22 @@ export class ScheduleService {
     }
 
     async getAllSchedule(userId: number) {
-        return await this.dataSource.createQueryBuilder()
-            .relation(User, 'schedules')
-            .of(userId)
-            .loadMany<Schedule>()
+        const schedules = await this.dataSource.getRepository(Schedule)
+            .createQueryBuilder('schedule')
+            .leftJoinAndSelect('schedule.medias', 'media')
+            .where('schedule.creatorId = :userId', { userId })
+            .getMany()
+        return schedules.map(({ id, poster, title, medias }) => ({ id, poster, title, mediaCount: medias.length }))
     }
 
     async addMedia(data: addMediaParamsType) {
         const { medias, scheduleId } = data
         const mediaEntities = await this.mediaRepository.save(medias.map(media => ({ ...media, date: formatDate(new Date()) })))
-        return await this.dataSource.createQueryBuilder()
+        await this.dataSource.createQueryBuilder()
             .relation(Schedule, 'medias')
             .of(scheduleId)
             .add(mediaEntities)
+        return mediaEntities
     }
 
     async getMediasOfSchedule(scheduleId: number) {
@@ -62,6 +65,12 @@ export class ScheduleService {
             target.medias.push(media)
         })
         return data
+    }
+
+    async getOneScheduleInfo(scheduleId: number) {
+        return await this.scheduleRepository.findOne({
+            where: { id: scheduleId }
+        })
     }
 }
 
