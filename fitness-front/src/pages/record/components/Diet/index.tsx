@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "@tarojs/components";
 import { AtIcon } from "taro-ui";
-import { mealKinds } from "@/pages/dietDetail/type";
+import { mealKinds } from "../../../../packageDiet/pages/dietDetail/type";
 import Taro from "@tarojs/taro";
 import styles from "./index.module.scss";
 
@@ -47,7 +47,7 @@ export const Diet: React.FC<DietProps> = (props) => {
   ));
   const goToDietDetailPage = () => {
     Taro.navigateTo({
-      url: "/pages/dietDetail/dietDetail",
+      url: "/packageDiet/pages/dietDetail/dietDetail",
     });
   };
 
@@ -97,7 +97,7 @@ const RecordOption: React.FC<RecordOptionProps> = (props) => {
   const { optName, icon, hasRecorded } = props;
   const goToAddPage = () =>
     Taro.navigateTo({
-      url: `/pages/add/add?type=${optName}`,
+      url: `/packageDiet/pages/add/add?type=${optName}`,
     });
   return (
     <View className={styles["record_option_container"]} onClick={goToAddPage}>
