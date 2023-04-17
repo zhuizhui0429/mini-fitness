@@ -1,0 +1,44 @@
+.schedule_container {
+  @gray-bg;
+}
+
+.schedule_container :global .all_schedule {
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.schedule_poster_container {
+  height: 240px;
+  display: flex;
+  margin: 20px 0px;
+}
+
+.schedule_poster_container :global image {
+  width: 240px;
+  height: 240px;
+  border-radius: 15px;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
+.schedule_poster_container :global .detail {
+  flex: 1 1 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 10px 0px;
+}
+
+.schedule_poster_container :global .detail .desc {
+  font-size: 34px;
+  margin: 15px 0px;
+}
+
+.schedule_poster_container :global .detail .mediaNum {
+  font-size: 26px;
+  color: gray;
+}
