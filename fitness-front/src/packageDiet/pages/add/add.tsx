@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { View, Image, Text } from "@tarojs/components";
 import Taro, { useRouter } from "@tarojs/taro";
 import { AtTabs, AtTabsPane, AtFloatLayout } from "taro-ui";
 import { SearchBar, Button, Popup } from "@nutui/nutui-react-taro";
 import { tabList, tabs } from "./config";
 import { MealEditor } from "@/comp";
-import { singleMeal, mealKinds } from "@/pages/dietDetail/type";
-import { getAllFood, AllFoodType } from "@/api";
+import { singleMeal, mealKinds } from "../dietDetail/type";
+import { getAllFood, AllFoodType, addDietRecord } from "@/api";
+import { globalContext } from "@/context";
 import styles from "./add.module.scss";
 
 definePageConfig({
@@ -16,10 +17,11 @@ const SelectFood = () => {
   const {
     params: { type },
   } = useRouter();
+  const ctx = useContext(globalContext);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [food, setFood] = useState<AllFoodType>(null as any);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const toEditFoodInfo = useRef<Omit<singleMeal, "weight">>({
+  const toEditFoodInfo = useRef<singleMeal>({
     rate: {},
   } as any);
   const [weight, setWeight] = useState(100);
@@ -27,7 +29,8 @@ const SelectFood = () => {
   useEffect(() => {
     const fetchFood = async () => {
       const res = await getAllFood();
-      setFood(res);
+      console.log("food", res.data.data);
+      setFood(res.data.data);
     };
     fetchFood();
     date.current = `${new Date().getMonth() + 1}月${new Date().getDate()}日`;
@@ -35,9 +38,7 @@ const SelectFood = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [searchPopupVisible, setSearchPopupVisible] = useState<boolean>(false);
   const [showRecord, setShowRecord] = useState<boolean>(true);
-  const [matchFood, setMatchFood] = useState<Array<Omit<singleMeal, "weight">>>(
-    []
-  );
+  const [matchFood, setMatchFood] = useState<Array<singleMeal>>([]);
   const handleChange = (text: string) => {
     setSearchText(text);
     if (text.length === 0) {
@@ -55,7 +56,10 @@ const SelectFood = () => {
       <View className="search_bar_container">
         <SearchBar
           className="search_bar"
-          onFocus={() => setSearchPopupVisible(true)}
+          onFocus={() => {
+            setSearchPopupVisible(true);
+            console.log("聚焦");
+          }}
           placeholder="请输入食物名称"
           rightoutIcon={
             <Button size="small" type="info">
@@ -143,6 +147,7 @@ const SelectFood = () => {
                       onClick={() => {
                         setIsEdit(true);
                         toEditFoodInfo.current = singleFood;
+                        console.log("toEditFoodInfo", singleFood);
                       }}
                     ></SingleFood>
                   ))
@@ -157,8 +162,14 @@ const SelectFood = () => {
           <MealEditor
             {...toEditFoodInfo.current}
             initialWeight={weight}
-            onSave={() => {
-              //await 保存该食物
+            onSave={async (selectedFood: singleMeal) => {
+              console.log("selectedFood", selectedFood);
+              await addDietRecord({
+                foodId: selectedFood.id,
+                weight: selectedFood.weight,
+                creatorId: ctx.userId,
+                type: type as any,
+              });
               setIsEdit(false);
               Taro.showToast({
                 title: "添加成功",
